@@ -8,6 +8,7 @@ namespace GroupCMinesweeperMidterm
         {
             Console.WriteLine("Hello World!");
             // Jennifer was here
+            //Sid was here
         }
     }
 }
