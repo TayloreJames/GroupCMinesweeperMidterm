@@ -7,34 +7,50 @@ namespace GroupCMinesweeperMidterm
         static void Main(string[] args)
         {
             Console.WriteLine("Welcome to Minesweeper!!");
-            Console.WriteLine("Please select the size of your board: ");
-            Console.ReadLine();
+            Console.WriteLine("Please select the number of rows: ");
+            int numRows = int.Parse(Console.ReadLine());
+            Console.WriteLine("Please select the number of columns: ");
+            int numColumns = int.Parse(Console.ReadLine());
+            Console.WriteLine("Please select the number of bombs: ");
+            int numBombs = int.Parse(Console.ReadLine());
 
             //CreateMinefield(height, width, numBombs);
-            var minefield1 = new Minefield(10, 10, 4);
-           minefield1.PrintMinefield(minefield1.MinefieldArray, minefield1.NumRows, minefield1.NumColumns);
+            var minefield1 = new Minefield(numRows, numColumns, numBombs);
+
+
+            //minefield1.PrintMinefield();
+            //Console.WriteLine(minefield1.MinefieldArray[3, 5].EmptyCell);
+            //Console.WriteLine(minefield1.MinefieldArray[5, 2].EmptyCell);
+            //Console.WriteLine(minefield1.MinefieldArray[1, 6].EmptyCell);
+            //Console.WriteLine(minefield1.MinefieldArray[4, 3].EmptyCell);
+            //Console.WriteLine(minefield1.MinefieldArray[7, 9].EmptyCell);
+            //Console.ReadKey();
+
 
             //    bool continuePlay = true;
             //    do
             //    {
-            //        GetUserNextPlay();
+            //        continuePlay = GetUserNextPlay();
             //    } while (continuePlay);
             //} //end Main
 
-            //private static void GetUserNextPlay()
+            //public static void GetUserNextPlay()
             //{
-            /*
-            bool validInput = true;
-            do
-            {
-                Console.WriteLine("Please select a cell for your next move: ");
-                Console.WriteLine("Please enter a column letter: ");
-                var columnLet = Console.ReadLine();
-                Console.WriteLine("Please enter a row number: ");
-                var rowLet = int.TryParse(Console.ReadLine(), out rowMove);
-            //  add if statement to check for valid row and column
-            } while (!validInput); 
-            */
+            //    int columnCoordinate;
+            //    int rowCoordinate;
+
+            //    bool validInput = true;
+            //    do
+            //    {
+            //        Console.WriteLine("Please select a cell for your next move: ");
+            //        Console.WriteLine("Please enter a column letter: ");
+            //        columnCoordinate = Convert.ToInt32(Convert.ToChar(Console.ReadLine().ToUpper())) - 65;
+            //        Console.WriteLine("Please enter a row number: ");
+            //        rowCoordinate = int.Parse(Console.ReadLine());
+
+            //        //  add if statement to check for valid row and column
+            //    } while (!validInput);
+
             //    Console.WriteLine("What is your next move? ");
             //    Console.WriteLine("Do you want to: ");
             //    Console.WriteLine("1) Uncover a cell");
@@ -55,18 +71,20 @@ namespace GroupCMinesweeperMidterm
             //            switch (playChoice)
             //            {
             //                case 1:
-            //                    UncoverCell(rowMove, columnMove);
+            //                    UncoverCell(rowCoordinate, columnCoordinate);
             //                    break;
             //                case 2:
-            //                    FlagCell(rowMove, columnMove);
+            //                    FlagCell(rowCoordinate, columnCoordinate);
             //                    break;
             //                case 3:
-            //                    RemoveFlag(rowMove, columnMove);
+            //                    RemoveFlag(rowCoordinate, columnCoordinate);
             //                    break;
             //            }//end switch
             //        }//end else
             //    } while (!inputValid);
             //}
         }
+
     }//end class Program
-} //end Namespace
+    }
+}// end Namespace
