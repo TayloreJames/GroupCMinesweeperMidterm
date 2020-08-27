@@ -190,35 +190,19 @@ namespace GroupCMinesweeperMidterm
 
             bool validInput = true;
             
-                Console.WriteLine("Please select a cell for your next move: ");
-                
+            Console.WriteLine("Please select a cell for your next move: ");            
             do
             {
                 Console.WriteLine("Please enter a column letter: ");
-                columnCoordinate = Convert.ToInt32(Convert.ToChar(Console.ReadLine().ToUpper())) - 65;
-                if (columnCoordinate < 0 || columnCoordinate > NumColumns)
-                {
-                    Console.WriteLine("Invalid Entry. Try again.");
-                    validInput = false;
-                }
-                else validInput = true;
-            } while (!validInput);
-            do
-            {
+                columnCoordinate = Convert.ToInt32(Convert.ToChar(Console.ReadLine().ToUpper())) - 65;           
                 Console.WriteLine("Please enter a row number: ");
 
                 if (int.TryParse(Console.ReadLine(), out int validRow))
                 {
                     rowCoordinate = validRow;
-                    if (rowCoordinate > 0 && rowCoordinate <= NumRows && MinefieldArray[rowCoordinate, columnCoordinate].CellCovered == true)
+                    if (rowCoordinate > 0 && rowCoordinate <= NumRows && columnCoordinate >= 0 && columnCoordinate < NumColumns && MinefieldArray[rowCoordinate, columnCoordinate].CellCovered == true)
                     {
-  
                         validInput = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid Entry. Try again.");
-                        validInput = false;
                     }
                 }
                 else
@@ -226,10 +210,8 @@ namespace GroupCMinesweeperMidterm
                     Console.WriteLine("Invalid Entry. Try again.");
                     validInput = false;
                 }
-
+                
             } while (!validInput);
-
-            //  add if statement to check for valid row and column
 
 
             Console.WriteLine("What is your next move? ");
@@ -246,7 +228,7 @@ namespace GroupCMinesweeperMidterm
                 {
                     inputValid = false;
                     Console.WriteLine("You have entered an invalid choice. Please try again! ");
-                } //end if
+                }
                 else
                 {
                     switch (playChoice)
@@ -260,8 +242,8 @@ namespace GroupCMinesweeperMidterm
                         case 3:
                             RemoveFlag(rowCoordinate, columnCoordinate);
                             return true;
-                    }//end switch
-                }//end else
+                    }
+                }
             } while (!inputValid);
             return true;
         }
