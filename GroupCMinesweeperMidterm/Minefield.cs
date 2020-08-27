@@ -6,6 +6,8 @@ namespace GroupCMinesweeperMidterm
         //Member Fields
         private string bomb = Convert.ToString(Convert.ToChar(0x2600));
         private char capitalAChar = Convert.ToChar(0x0041);
+        private string emptySymbol = Convert.ToString(Convert.ToChar(0x2610));
+        private string whiteFlag = Convert.ToString(Convert.ToChar(0x2691));
         private int numberOne = 1;
 
         //Properties
@@ -41,6 +43,7 @@ namespace GroupCMinesweeperMidterm
                     if (i == 0 && j < NumColumns)
                     {
                         minefield[i, j].CellStringUncovered =Convert.ToString(capitalAChar);
+                        minefield[i, j].CellCovered = false;
 
                         capitalAChar++;
                         if (capitalAChar == '[')
@@ -52,11 +55,13 @@ namespace GroupCMinesweeperMidterm
                     else if (i == 0 && j == NumColumns)
                     {
                         minefield[0, j].CellStringUncovered = "  ";
+                        minefield[0, j].CellCovered = false;
                     }
                     //numeric coordinates for rows
                     else if (j == NumColumns)
                     {
                         minefield[i, j].CellStringUncovered = " " + Convert.ToString(numberOne);
+                        minefield[i, j].CellCovered = false;
                         numberOne++;
                     }
  
@@ -64,7 +69,7 @@ namespace GroupCMinesweeperMidterm
             }
             PopulateBombs(minefield);
             PopulateNumberedCells(minefield);
-            
+            PopulateEmptyCells(minefield);
             return minefield;
         }
 
@@ -122,6 +127,20 @@ namespace GroupCMinesweeperMidterm
             }
         }
 
+        public void PopulateEmptyCells(Cell[,] minefield)
+        {
+            for(int i = 1; i < NumRows + 1; i++)
+            {
+                for(int j = 0; j < NumColumns; j++)
+                {
+                    if (minefield[i, j].EmptyCell == true)
+                    {
+                        minefield[i, j].CellStringUncovered = "@";
+                    }
+                }
+            }
+        }
+
         public void PrintUncoveredMinefield()
         {
 
@@ -136,22 +155,82 @@ namespace GroupCMinesweeperMidterm
 
         }
 
+        public void PrintCoveredMinefield()
+        {
+
+            for (int i = 0; i < NumRows + 1; i++)
+            {
+                for (int j = 0; j < NumColumns + 1; j++)
+                {
+                    if (MinefieldArray[i, j].CellCovered)
+                    {
+                        if (MinefieldArray[i, j].FlagPresent)
+                        {
+                            Console.Write(whiteFlag);
+                        }
+                        else
+                        {
+                            Console.Write("#");
+                        }
+                    }
+                    else
+                    {
+                        Console.Write(MinefieldArray[i, j].CellStringUncovered);
+                    }
+                }
+                Console.WriteLine();
+            }
+
+        }
+
         public bool GetUserNextPlay()
         {
-            int columnCoordinate;
-            int rowCoordinate;
+            int columnCoordinate = 0;
+            int rowCoordinate = 0;
 
             bool validInput = true;
+            
+                Console.WriteLine("Please select a cell for your next move: ");
+                
             do
             {
-                Console.WriteLine("Please select a cell for your next move: ");
                 Console.WriteLine("Please enter a column letter: ");
                 columnCoordinate = Convert.ToInt32(Convert.ToChar(Console.ReadLine().ToUpper())) - 65;
-                Console.WriteLine("Please enter a row number: ");
-                rowCoordinate = int.Parse(Console.ReadLine());
-
-                //  add if statement to check for valid row and column
+                if (columnCoordinate < 0 || columnCoordinate > NumColumns)
+                {
+                    Console.WriteLine("Invalid Entry. Try again.");
+                    validInput = false;
+                }
+                else validInput = true;
             } while (!validInput);
+            do
+            {
+                Console.WriteLine("Please enter a row number: ");
+
+                if (int.TryParse(Console.ReadLine(), out int validRow))
+                {
+                    rowCoordinate = validRow;
+                    if (rowCoordinate > 0 && rowCoordinate <= NumRows && MinefieldArray[rowCoordinate, columnCoordinate].CellCovered == true)
+                    {
+  
+                        validInput = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid Entry. Try again.");
+                        validInput = false;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid Entry. Try again.");
+                    validInput = false;
+                }
+
+            } while (!validInput);
+
+            //  add if statement to check for valid row and column
+
 
             Console.WriteLine("What is your next move? ");
             Console.WriteLine("Do you want to: ");
@@ -206,6 +285,7 @@ namespace GroupCMinesweeperMidterm
                 {
                     if (cell.CellCovered && !cell.BombPresent)
                     {
+                        PrintCoveredMinefield();
                         return true;
                     }
                 }
@@ -214,26 +294,50 @@ namespace GroupCMinesweeperMidterm
                 return false;
 
             }
+            else
+            {
+                FlipEmpties(rowCoordinate, columnCoordinate);
+                foreach (var cell in MinefieldArray)
+                {
+                    if (cell.CellCovered && !cell.BombPresent)
+                    {
+                        PrintCoveredMinefield();
+                        return true;
+                    }
+                }
+                Console.WriteLine("CONGRATULATIONS! YOU'RE A WINNER!");
+                PrintUncoveredMinefield();
+                return false;
 
+            }
+        }
+        public void FlipEmpties(int rowCoordinate, int columnCoordinate)
+        {
+            //Flip given cell
+            MinefieldArray[rowCoordinate, columnCoordinate].CellCovered = false;
 
-            //checking around given square
+            //Search around the given cell
             for (int k = rowCoordinate - 1; k <= rowCoordinate + 1; k++)
             {
                 for (int l = columnCoordinate - 1; l <= columnCoordinate + 1; l++)
                 {
-                    //making sure not to add 
-                    if (k >= 0 && k < NumRows && l >= 0 && l < NumColumns)
+                    //Makes sure cell we're checking is wihtin bounds
+                    if (k > 0 && k < NumRows + 1 && l >= 0 && l < NumColumns)
                     {
+                        //Makes sure center cell doesnt start FlipEmpties over again
                         if (k != rowCoordinate || l != columnCoordinate)
                         {
-                            if (searchArray[k, l] == "#")
+                            if (MinefieldArray[k, l].CellStringUncovered == "@" && MinefieldArray[k, l].CellCovered == true)
                             {
 
-                                searchArray[k, l] = Convert.ToString(Convert.ToChar(0x2610));
-                                FlipEmpties(searchArray, k, l);
+                                MinefieldArray[k, l].CellCovered = false;
+                                FlipEmpties(k, l);
+                            }
+                            else if (MinefieldArray[k, l].NumPresent == true)
+                            {
+                                MinefieldArray[k, l].CellCovered = false;
                             }
                         }
-                        else if (searchArray[k, l] == "#") searchArray[rowCoordinate, columnCoordinate] = Convert.ToString(Convert.ToChar(0x2610));
 
                     }
                 }
@@ -251,6 +355,7 @@ namespace GroupCMinesweeperMidterm
             {
                 Console.WriteLine("Cannot place flag at this location");
             }
+            PrintCoveredMinefield();
         }
 
         public void RemoveFlag(int rowCoordinate, int columnCoordinate)
@@ -264,6 +369,7 @@ namespace GroupCMinesweeperMidterm
             {
                 Console.WriteLine("There are no flags at this location.");
             }
+            PrintCoveredMinefield();
         }
 
     }
