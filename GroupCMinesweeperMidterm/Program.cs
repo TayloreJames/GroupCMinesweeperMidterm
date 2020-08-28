@@ -20,7 +20,7 @@ namespace GroupCMinesweeperMidterm
                 {
                     Console.Write("Please select the number of rows (max of 26): ");
                     validInput = int.TryParse(Console.ReadLine(), out int tempRow);
-                    if (validInput && tempRow <= 26)
+                    if (validInput && tempRow > 0 && tempRow <= 26)
                     {
                         numRows = tempRow;
                     }
@@ -35,7 +35,7 @@ namespace GroupCMinesweeperMidterm
                 {
                     Console.Write("Please select the number of columns (max of 26): ");
                     validInput = int.TryParse(Console.ReadLine(), out int tempColumn);
-                    if (validInput && tempColumn <= 26)
+                    if (validInput && tempColumn > 0 && tempColumn <= 26)
                     {
                         numColumns = tempColumn;
                     }
@@ -50,7 +50,7 @@ namespace GroupCMinesweeperMidterm
                 {
                     Console.Write($"Please select the number of bombs (max of {numColumns * numRows / 2}): ");
                     validInput = int.TryParse(Console.ReadLine(), out int tempBombs);
-                    if (validInput && tempBombs <= (numColumns * numRows / 2))
+                    if (validInput && tempBombs > 0 && tempBombs <= (numColumns * numRows / 2))
                     {
                         numBombs = tempBombs;
                     }

@@ -192,12 +192,21 @@ namespace GroupCMinesweeperMidterm
 
             bool validInputRow = true;
             bool validInputColumn = true;
+            char tempColumn='a';
             
             Console.WriteLine("Please select a cell for your next move ");            
             do
             {
                 Console.Write("Please enter a column letter: ");
-                var tempColumn = Convert.ToChar(Console.ReadLine().ToUpper());
+                var stringColumn = Console.ReadLine().ToUpper();
+                if (stringColumn.Length > 1)
+                {
+                    validInputColumn = false;
+                }
+                else
+                {
+                    tempColumn = Convert.ToChar(stringColumn);
+                }
                 if (Char.IsLetter(tempColumn))
                 {
                     columnCoordinate = Convert.ToInt32(tempColumn) - 65;
