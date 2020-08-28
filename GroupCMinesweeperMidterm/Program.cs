@@ -14,6 +14,7 @@ namespace GroupCMinesweeperMidterm
 
             while (continueProgram)
             {
+                Console.Clear();
                 Console.WriteLine("Welcome to Minesweeper!!");
                 do
                 {
@@ -60,7 +61,7 @@ namespace GroupCMinesweeperMidterm
                     }
                 } while (!validInput);
 
-
+                Console.Clear();
                 var minefield1 = new Minefield(numRows, numColumns, numBombs);
                 minefield1.PrintCoveredMinefield();
 

@@ -135,7 +135,7 @@ namespace GroupCMinesweeperMidterm
                 {
                     if (minefield[i, j].EmptyCell == true)
                     {
-                        minefield[i, j].CellStringUncovered = "_";
+                        minefield[i, j].CellStringUncovered = " ";
                     }
                 }
             }
@@ -157,7 +157,7 @@ namespace GroupCMinesweeperMidterm
 
         public void PrintCoveredMinefield()
         {
-            Console.WriteLine();
+            //Console.WriteLine();
             for (int i = 0; i < NumRows + 1; i++)
             {
                 for (int j = 0; j < NumColumns + 1; j++)
@@ -214,6 +214,7 @@ namespace GroupCMinesweeperMidterm
                     {
                         validInputRow = true;
                     }
+                    else validInputRow = false;
                 }
                 else validInputRow = false;
 
@@ -286,7 +287,7 @@ namespace GroupCMinesweeperMidterm
                     }
                 }
                 Console.Clear();
-                Console.WriteLine("\nCONGRATULATIONS! YOU'RE A WINNER!");
+                Console.WriteLine("CONGRATULATIONS! YOU'RE A WINNER!");
                 PrintUncoveredMinefield();
                 return false;
 
@@ -326,7 +327,7 @@ namespace GroupCMinesweeperMidterm
                         //Makes sure center cell doesnt start FlipEmpties over again
                         if (k != rowCoordinate || l != columnCoordinate)
                         {
-                            if (MinefieldArray[k, l].CellStringUncovered == "_" && MinefieldArray[k, l].CellCovered == true)
+                            if (MinefieldArray[k, l].CellStringUncovered == " " && MinefieldArray[k, l].CellCovered == true)
                             {
 
                                 MinefieldArray[k, l].CellCovered = false;
@@ -349,12 +350,16 @@ namespace GroupCMinesweeperMidterm
             {
                 MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent = true;
                 NumFlags--;
+                Console.Clear();
+                PrintCoveredMinefield();
             }
             else
             {
-                Console.WriteLine("Cannot place flag at this location");
+                Console.Clear();
+                Console.WriteLine("Cannot place flag at this location");        
+                PrintCoveredMinefield();
             }
-            PrintCoveredMinefield();
+            
         }
 
         public void RemoveFlag(int rowCoordinate, int columnCoordinate)
@@ -368,6 +373,7 @@ namespace GroupCMinesweeperMidterm
             {
                 Console.WriteLine("There are no flags at this location.");
             }
+            Console.Clear();
             PrintCoveredMinefield();
         }
 
