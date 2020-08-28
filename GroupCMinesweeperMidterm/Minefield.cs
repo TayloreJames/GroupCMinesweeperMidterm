@@ -323,6 +323,7 @@ namespace GroupCMinesweeperMidterm
         public void FlipEmpties(int rowCoordinate, int columnCoordinate)
         {
             //Flip given cell
+            if (MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent == true) NumFlags++;
             MinefieldArray[rowCoordinate, columnCoordinate].CellCovered = false;
 
             //Search around the given cell
@@ -344,7 +345,9 @@ namespace GroupCMinesweeperMidterm
                             }
                             else if (MinefieldArray[k, l].NumPresent == true)
                             {
+                                if (MinefieldArray[k, l].FlagPresent == true) NumFlags++;
                                 MinefieldArray[k, l].CellCovered = false;
+                                
                             }
                         }
 
@@ -355,7 +358,7 @@ namespace GroupCMinesweeperMidterm
 
         public void FlagCell(int rowCoordinate, int columnCoordinate)
         {
-            if (NumFlags > 0 && MinefieldArray[rowCoordinate, columnCoordinate].CellCovered == true)
+            if (NumFlags > 0 && MinefieldArray[rowCoordinate, columnCoordinate].CellCovered == true && MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent == false)
             {
                 MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent = true;
                 NumFlags--;
@@ -373,17 +376,20 @@ namespace GroupCMinesweeperMidterm
 
         public void RemoveFlag(int rowCoordinate, int columnCoordinate)
         {
-            if (MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent == true)
+            if (MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent == true && MinefieldArray[rowCoordinate, columnCoordinate].CellCovered == true)
             {
                 MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent = false;
                 NumFlags++;
+                PrintCoveredMinefield();
             }
             else
             {
-                Console.WriteLine("There are no flags at this location.");
+                Console.Clear();
+                PrintCoveredMinefield();
+                Console.WriteLine("Error. There are no flags at this location.\n");
             }
-            Console.Clear();
-            PrintCoveredMinefield();
+            
+            
         }
 
     }

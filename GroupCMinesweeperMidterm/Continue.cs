@@ -7,7 +7,7 @@ namespace GroupCMinesweeperMidterm
 
         public bool DetermineStatus()
         {
-            Console.Write("\n Would you like to play again? (y/n): ");
+            Console.Write("\nWould you like to play again? (y/n): ");
             UserInput = Console.ReadLine();
 
             while (true)
