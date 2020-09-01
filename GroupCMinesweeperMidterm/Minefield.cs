@@ -6,7 +6,6 @@ namespace GroupCMinesweeperMidterm
         //Member Fields
         private string bomb = Convert.ToString(Convert.ToChar(0x2600));
         private char capitalAChar = Convert.ToChar(0x0041);
-        private string emptySymbol = Convert.ToString(Convert.ToChar(0x2610));
         private string whiteFlag = Convert.ToString(Convert.ToChar(0x2691));
         private int numberOne = 1;
 
@@ -97,12 +96,12 @@ namespace GroupCMinesweeperMidterm
         public void PopulateNumberedCells(Cell[,] minefield)
         {
             int counter = 0;
+            //loops through entire game board
             for (int i = 1; i < NumRows + 1; i++)
             {
                 for (int j = 0; j < NumColumns; j++)
                 {
-                    //checking around given square
-
+                    //begins search around given loop
                     for (int k = i - 1; k <= i + 1; k++)
                     {
                         for (int l = j - 1; l <= j + 1; l++)
@@ -156,8 +155,7 @@ namespace GroupCMinesweeperMidterm
         }
 
         public void PrintCoveredMinefield()
-        {
-            //Console.WriteLine();
+        {       
             for (int i = 0; i < NumRows + 1; i++)
             {
                 for (int j = 0; j < NumColumns + 1; j++)
@@ -273,7 +271,11 @@ namespace GroupCMinesweeperMidterm
 
         public bool UncoverCell(int rowCoordinate, int columnCoordinate)
         {
-            
+            if(MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent)
+            {
+                MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent = false;
+                NumFlags++;
+            }
             if (MinefieldArray[rowCoordinate, columnCoordinate].BombPresent)
             {
                 Console.Clear();
@@ -380,6 +382,7 @@ namespace GroupCMinesweeperMidterm
             {
                 MinefieldArray[rowCoordinate, columnCoordinate].FlagPresent = false;
                 NumFlags++;
+                Console.Clear();
                 PrintCoveredMinefield();
             }
             else

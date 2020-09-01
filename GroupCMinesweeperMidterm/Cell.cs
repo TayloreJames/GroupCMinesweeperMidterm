@@ -38,8 +38,6 @@ namespace GroupCMinesweeperMidterm
         public string CellStringUncovered { get; set; }
 
 
-
-
         //Constructors
         public Cell()
         {
@@ -51,21 +49,5 @@ namespace GroupCMinesweeperMidterm
 
         }
 
-        
-
-
-        
-
-        // public static Cell[,] FlagCell(int rowMove, int columnMove, Cell[,] minefieldArray)
-        //  {
-        //      minefieldArray[rowMove, columnMove].FlagPresent = true;
-        //      numFlags -=; 
-        //  }
-        /*
-          public static void RemoveFlag(int rowMove, int columnMove)
-          {
-
-          }
-        */
     }
 }

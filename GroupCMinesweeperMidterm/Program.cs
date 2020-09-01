@@ -80,5 +80,5 @@ namespace GroupCMinesweeperMidterm
             }
         }
      
-    }//end class Program
-}// end Namespace
+    }
+}
